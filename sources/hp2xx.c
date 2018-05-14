@@ -482,6 +482,7 @@ void preset_par(GEN_PAR * pg, IN_PAR * pi, OUT_PAR * po)
 	pg->maxpens = 8;
 	pg->is_color = FALSE;
 	pg->mapzero = -1;
+	pg->td_file = NULL;
 
 	pt.width[0] = 0.0;	/* 1/10 mm              */
 	pt.color[0] = xxBackground;
@@ -602,13 +603,13 @@ void cleanup_g(GEN_PAR * pg)
 	if (pg != NULL && pg->td != NULL) {
 		fclose(pg->td);
 		pg->td = NULL;
+		if (pg->td_file)
+		{
+			unlink(pg->td_file);
+			free(pg->td_file);
+			pg->td_file = NULL;
+		}
 	}
-#if defined(DOS) && defined (GNU)
-/**
- ** GNU libc.a (DJ's DOS port) bug fix:
- **/
-	unlink("hp2xx.$$$");
-#endif
 }
 
 
@@ -684,14 +685,14 @@ int HPGL_to_TMP(GEN_PAR * pg, IN_PAR * pi)
    ** NOTE:
    **	If program terminates abnormally, delete hp2xx.$$$ manually!!
    **/
-
-#if defined(DOS) && defined (GNU)
-	if ((pg->td = fopen("hp2xx.$$$", "w+b")) == NULL)
-#elif defined(AMIGA)
-	if ((pg->td = fopen("t:hp2xx.tmp", "w+b")) == NULL)
-#else
-	if ((pg->td = fopen("hp2xx.$$$", "w+b")) == NULL)	// if ((pg->td = tmpfile()) == NULL)		for Windows7. Read http://sourceforge.net/p/gnuwin32/discussion/74807/thread/903411c4/
-#endif	/** !DOS && GNU	**/
+	pg->td_file = (char*)calloc(256, sizeof(char));
+	if (NULL == tmpnam(pg->td_file))
+	{
+		PError("hp2xx -- generate temporary file name");
+		return ERROR;
+	}
+	
+	if ((pg->td = fopen(pg->td_file, "w+b")) == NULL)
 	{
 		PError("hp2xx -- opening temporary file");
 		return ERROR;

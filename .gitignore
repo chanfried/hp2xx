@@ -30,3 +30,10 @@
 *.exe
 *.out
 *.app
+# visual temporary file
+ms/.vs/
+ms/Release/
+ms/Debug/
+ms/x64/
+*.pdb
+*.swp

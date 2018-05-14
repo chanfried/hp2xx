@@ -300,6 +300,7 @@ typedef struct {		/* Corresponding option(s)        */
 	hp2xx_mode xx_mode;	/* (internally needed)          */
 	int maxpens;		/* (internally needed)          */
 	int mapzero;		/* remapping of pen 0		*/
+	char *td_file;
 } GEN_PAR;
 
 
