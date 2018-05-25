@@ -109,7 +109,7 @@ void NormalWait(void)
 void action_oldstyle(GEN_PAR * pg, IN_PAR * pi, OUT_PAR * po)
 {
 	int err;
-	char savedname[100];
+	char savedname[256];
 /*int counter=-1;*/
 	char thepage[4];
 
@@ -514,11 +514,12 @@ process_opts(int argc, char *argv[],
 
 int main(int argc, char *argv[])
 {
+	//int tmp = getchar();
 	GEN_PAR Pg;
 	IN_PAR Pi;
 	OUT_PAR Po;
 	int i;
-	char outname[128] = "";
+	char outname[256] = "";
 
 	char *shortopts =
 	    "a:c:d:D:e:f:h:l:m:M:o:O:p:P:r:s:S:V:w:x:X:y:Y:z:Z:CFH:W:inqtvNI?";
@@ -630,11 +631,12 @@ int main(int argc, char *argv[])
 			action_oldstyle(&Pg, &Pi, &Po);
 			reset_par(&Pi);
 		}
-
+	
 	cleanup(&Pg, &Pi, &Po);
 	if (!strcmp(Pg.mode, "pre"))
 		free(Po.outfile);
 	if (*Pg.logfile)
 		fclose(stderr);
+		
 	return NOERROR;
 }

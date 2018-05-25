@@ -482,7 +482,7 @@ void preset_par(GEN_PAR * pg, IN_PAR * pi, OUT_PAR * po)
 	pg->maxpens = 8;
 	pg->is_color = FALSE;
 	pg->mapzero = -1;
-	pg->td_file = NULL;
+	pg->td_file[0] = '\0';
 
 	pt.width[0] = 0.0;	/* 1/10 mm              */
 	pt.color[0] = xxBackground;
@@ -606,8 +606,9 @@ void cleanup_g(GEN_PAR * pg)
 		if (pg->td_file)
 		{
 			unlink(pg->td_file);
-			free(pg->td_file);
-			pg->td_file = NULL;
+			//free(pg->td_file);
+			//pg->td_file = NULL;
+			pg->td_file[0] = '\0';
 		}
 	}
 }
@@ -685,13 +686,15 @@ int HPGL_to_TMP(GEN_PAR * pg, IN_PAR * pi)
    ** NOTE:
    **	If program terminates abnormally, delete hp2xx.$$$ manually!!
    **/
-	pg->td_file = (char*)calloc(256, sizeof(char));
-	if (NULL == tmpnam(pg->td_file))
+
+	char *tmp = tmpnam(NULL);
+	if (NULL == tmp)
+	//if (NULL == tmpnam(pg->td_file))
 	{
 		PError("hp2xx -- generate temporary file name");
 		return ERROR;
 	}
-	
+	strcpy(pg->td_file, tmp);
 	if ((pg->td = fopen(pg->td_file, "w+b")) == NULL)
 	{
 		PError("hp2xx -- opening temporary file");
