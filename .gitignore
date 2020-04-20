@@ -37,3 +37,4 @@ ms/Debug/
 ms/x64/
 *.pdb
 *.swp
+*.user
