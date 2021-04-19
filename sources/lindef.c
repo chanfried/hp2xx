@@ -280,7 +280,7 @@ void Line_Attr_to_tmpfile(LineAttrKind kind, int value)
 int load_line_attr(FILE * td)
 {
 	LineAttrKind kind;
-	int value;
+	int value = 1;
 	static int FoundJoin = 0;
 	static int FoundLimit = 0;
 

@@ -110,6 +110,8 @@ void action_oldstyle(GEN_PAR * pg, IN_PAR * pi, OUT_PAR * po)
 {
 	int err;
 	char savedname[256];
+	char ret_name[256];
+	char page_size[256];
 /*int counter=-1;*/
 	char thepage[4];
 
@@ -118,6 +120,10 @@ void action_oldstyle(GEN_PAR * pg, IN_PAR * pi, OUT_PAR * po)
 		Send_version();
 
 	strcpy(savedname, po->outfile);
+	strcpy(ret_name, savedname);
+	strcat(ret_name, ".ret");
+	FILE *ret_file = NULL;
+	ret_file = fopen(ret_name, "w+");
 	for (;;) {
   /**
    ** Phase 1: HP-GL --> TMP file data
@@ -129,7 +135,7 @@ void action_oldstyle(GEN_PAR * pg, IN_PAR * pi, OUT_PAR * po)
 			cleanup_i(pi);
 			cleanup_g(pg);
 			cleanup_o(po);
-			return;
+			break;
 		}
 		if (strcmp(pg->mode, "pre")) {
 			po->pagecount++;
@@ -150,7 +156,10 @@ void action_oldstyle(GEN_PAR * pg, IN_PAR * pi, OUT_PAR * po)
    ** Phase 2: TMP file re-scaling
    **/
 		adjust_input_transform(pg, pi, po);
-
+		//log to return file
+		fwrite(po->outfile, sizeof(char), strlen(po->outfile), ret_file);
+		sprintf(page_size, ",%g,%g\n", po->width, po->height);
+		fwrite(page_size, sizeof(char), strlen(page_size), ret_file);
   /**
    ** Phase 3: (a) TMP file --> Vector formats
    **/
@@ -159,7 +168,7 @@ void action_oldstyle(GEN_PAR * pg, IN_PAR * pi, OUT_PAR * po)
 			continue;
 		if (err == ERROR) {
 			cleanup(pg, pi, po);
-			return;
+			break;
 		}
 
   /**
@@ -167,20 +176,20 @@ void action_oldstyle(GEN_PAR * pg, IN_PAR * pi, OUT_PAR * po)
    **/
 		if (TMP_to_BUF(pg, po)) {
 			cleanup(pg, pi, po);
-			return;
+			break;
 		}
 
   /**
    ** Phase 3: (c) Raster image --> output formats
    **/
 		err = BUF_to_RAS(pg, po);
-
 		if (err == 1)
 			Eprintf("%s: Not implemented!\n", pg->mode);
 		cleanup_g(pg);
 		cleanup_o(po);
 	}
-
+	if (ret_file)
+		fclose(ret_file);
 }
 
 

@@ -96,7 +96,7 @@
       <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(GLAWAY_CPP_LIB)/include/zlib;$(GLAWAY_CPP_LIB)/include/libtiff;$(GLAWAY_CPP_LIB)/include/libpng;$(GLAWAY_CPP_LIB)/include/pdflib;$(GLAWAY_CPP_LIB)/include/libjpeg;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(GLAWAY_CPP_LIB)/include/zlib;$(GLAWAY_CPP_LIB)/include/libtiff;$(GLAWAY_CPP_LIB)/include/libpng;$(GLAWAY_CPP_LIB)/include/pdflib/9.0.0;$(GLAWAY_CPP_LIB)/include/libjpeg;</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -109,7 +109,7 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention />
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>$(GLAWAY_CPP_LIB)/lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(GLAWAY_CPP_LIB)/lib/pdflib/9.0.0;$(GLAWAY_CPP_LIB)/lib;</AdditionalLibraryDirectories>
       <AdditionalDependencies>libtiff.lib;libjpeg.lib;libpng.lib;pdflib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Bscmake>
@@ -131,7 +131,7 @@
       <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(GLAWAY_CPP_LIB)/include/zlib;$(GLAWAY_CPP_LIB)/include/libtiff;$(GLAWAY_CPP_LIB)/include/libpng;$(GLAWAY_CPP_LIB)/include/pdflib;$(GLAWAY_CPP_LIB)/include/libjpeg;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(GLAWAY_CPP_LIB)/include/zlib;$(GLAWAY_CPP_LIB)/include/libtiff;$(GLAWAY_CPP_LIB)/include/libpng;$(GLAWAY_CPP_LIB)/include/pdflib/9.0.0;$(GLAWAY_CPP_LIB)/include/libjpeg;</AdditionalIncludeDirectories>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -144,7 +144,7 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
-      <AdditionalLibraryDirectories>$(GLAWAY_CPP_LIB)/lib64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(GLAWAY_CPP_LIB)/lib64/pdflib/9.0.0;$(GLAWAY_CPP_LIB)/lib64;</AdditionalLibraryDirectories>
       <AdditionalDependencies>libtiff.lib;libjpeg.lib;libpng.lib;pdflib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Bscmake>
@@ -160,7 +160,7 @@
     <ClCompile>
       <Optimization>MinSpace</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>$(GLAWAY_CPP_LIB)/include/zlib;$(GLAWAY_CPP_LIB)/include/libtiff;$(GLAWAY_CPP_LIB)/include/libpng;$(GLAWAY_CPP_LIB)/include/pdflib;$(GLAWAY_CPP_LIB)/include/libjpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(GLAWAY_CPP_LIB)/include/zlib;$(GLAWAY_CPP_LIB)/include/libtiff;$(GLAWAY_CPP_LIB)/include/libpng;$(GLAWAY_CPP_LIB)/include/pdflib/9.0.0;$(GLAWAY_CPP_LIB)/include/libjpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;WIN32;_CONSOLE;EMF;_NO_VCL;NORINT;TIF;PNG;JPG;PIC_PAC;ZLIB_WINAPI;USEPDF;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -175,7 +175,7 @@
     <Link>
       <AdditionalDependencies>libtiff.lib;libjpeg.lib;libpng.lib;pdflib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>$(GLAWAY_CPP_LIB)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(GLAWAY_CPP_LIB)/lib/pdflib/9.0.0;$(GLAWAY_CPP_LIB)/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention />
@@ -195,7 +195,7 @@
     <ClCompile>
       <Optimization>MinSpace</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>$(GLAWAY_CPP_LIB)/include/zlib;$(GLAWAY_CPP_LIB)/include/libtiff;$(GLAWAY_CPP_LIB)/include/libpng;$(GLAWAY_CPP_LIB)/include/pdflib;$(GLAWAY_CPP_LIB)/include/libjpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(GLAWAY_CPP_LIB)/include/zlib;$(GLAWAY_CPP_LIB)/include/libtiff;$(GLAWAY_CPP_LIB)/include/libpng;$(GLAWAY_CPP_LIB)/include/pdflib/9.0.0;$(GLAWAY_CPP_LIB)/include/libjpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;WIN32;_CONSOLE;EMF;_NO_VCL;NORINT;TIF;PNG;JPG;PIC_PAC;ZLIB_WINAPI;USEPDF;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -210,7 +210,7 @@
     <Link>
       <AdditionalDependencies>libtiff.lib;libjpeg.lib;libpng.lib;pdflib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>$(GLAWAY_CPP_LIB)/lib64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(GLAWAY_CPP_LIB)/lib64/pdflib/9.0.0;$(GLAWAY_CPP_LIB)/lib64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>

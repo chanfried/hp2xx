@@ -285,9 +285,26 @@ int to_pdf(const GEN_PAR * pg, const OUT_PAR * po)
  ** Command loop: While temporary file not empty: process command.
  **/
 	openpath = 0;
+	PlotCmd pre_cmd = CMD_EOF;
+	double pre_x = 0;
+	double pre_y = 0;
 	while ((cmd = PlotCmd_from_tmpfile()) != CMD_EOF) {
+		//printf("command : %d\n", cmd);
+		// ignore draw to after DEF_PC, fix "[2100] : Function must not be called in 'path' scope" error
+		if (pre_cmd == DEF_PC && cmd == DRAW_TO)
+		{
+			pensize = pt.width[pen_no];
+			PAGEMODE;
+			pdf_set_linewidth((double)pensize, md);
+			pdf_set_linecap(CurrentLineAttr.End, (double)pensize, md);
+			pdf_set_linejoin(CurrentLineAttr.Join, CurrentLineAttr.Limit, (double)pensize, md);
+			pdf_set_color(pt.color[pen_no], md);
+			PDF_moveto(md, pre_x, pre_y);
+			printf("Find DRAW_TO after DEF_PC, add MOVE_TO\n");
+		}
 		switch (cmd) {
 		case NOP:
+			pre_cmd = cmd;
 			break;
 
 		case SET_PEN:
@@ -297,24 +314,27 @@ int to_pdf(const GEN_PAR * pg, const OUT_PAR * po)
 				goto PDF_exit;
 			}
 			pensize = pt.width[pen_no];
+			pre_cmd = cmd;
 			break;
 
-		case DEF_PW:
+		case DEF_PW: //5
 			if (!load_pen_width_table(pg->td)) {
 				PError("Unexpected end of temp. file");
 				err = ERROR;
 				goto PDF_exit;
 			}
 			pensize = pt.width[pen_no];
+			pre_cmd = cmd;
 			break;
 
-		case DEF_PC:
+		case DEF_PC: //6
 			err = load_pen_color_table(pg->td);
 			if (err < 0) {
 				PError("Unexpected end of temp. file");
 				err = ERROR;
 				goto PDF_exit;
 			}
+			pre_cmd = cmd;
 			break;
 
 		case DEF_LA:
@@ -323,6 +343,7 @@ int to_pdf(const GEN_PAR * pg, const OUT_PAR * po)
 				err = ERROR;
 				goto PDF_exit;
 			}
+			pre_cmd = cmd;
 			break;
 
 		case MOVE_TO:
@@ -337,9 +358,11 @@ int to_pdf(const GEN_PAR * pg, const OUT_PAR * po)
 			pdf_set_color(pt.color[pen_no], md);
 
 			HPGL_Pt_from_tmpfile(&pt1);
-			PDF_moveto(md, (pt1.x - xmin) * xcoord2mm,
-				   (pt1.y - ymin) * ycoord2mm);
+			pre_x = (pt1.x - xmin) * xcoord2mm;
+			pre_y = (pt1.y - ymin) * ycoord2mm;
+			PDF_moveto(md, pre_x, pre_y);
 			openpath = 1;
+			pre_cmd = cmd;
 			break;
 
 		case DRAW_TO:
@@ -350,13 +373,14 @@ int to_pdf(const GEN_PAR * pg, const OUT_PAR * po)
 			pdf_set_linejoin(CurrentLineAttr.Join,
 					 CurrentLineAttr.Limit,
 					 (double) pensize, md);
-
 			pdf_set_color(pt.color[pen_no], md);
 
 			HPGL_Pt_from_tmpfile(&pt1);
-			PDF_lineto(md, (pt1.x - xmin) * xcoord2mm,
-				   (pt1.y - ymin) * ycoord2mm);
+			pre_x = (pt1.x - xmin) * xcoord2mm;
+			pre_y = (pt1.y - ymin) * ycoord2mm;
+			PDF_lineto(md, pre_x, pre_y);
 			openpath = 1;
+			pre_cmd = cmd;
 			break;
 
 		case PLOT_AT:
@@ -373,6 +397,7 @@ int to_pdf(const GEN_PAR * pg, const OUT_PAR * po)
 				   pensize / 2 * MM_TO_PS_POINT);
 			PDF_fill(md);
 			PDF_restore(md);
+			pre_cmd = cmd;
 			break;
 
 		default:
